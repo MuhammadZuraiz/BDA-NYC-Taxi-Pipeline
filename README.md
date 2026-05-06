@@ -241,13 +241,3 @@ python analytics.py
 6. **Solo riders = 55%+ of revenue** — target subscription pricing for commuters
 7. **Vendor 2 outperforms Vendor 1** on dispute rates — share KPIs with dispatch partners
 8. **Cumulative revenue grows linearly** with slight upward trend in second half of January
-
----
-
-## File Naming Convention
-
-| Submission | Zip File |
-|------------|----------|
-| Assignment 2 | `GroupNumber_A2_BDA.zip` |
-| Assignment 3 | `GroupNumber_A3_BDA.zip` |
-| Assignment 4 | `GroupNumber_A4_BDA.zip` |
