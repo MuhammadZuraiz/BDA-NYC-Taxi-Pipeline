@@ -13,11 +13,10 @@
 
 ## Group Members
 
-| Name | Student ID | Primary Role |
-|------|-----------|-------------|
-| [Name 1] | [ID] | A2: Ingestion pipeline & profiling |
-| [Name 2] | [ID] | A3: PySpark ETL & star schema |
-| [Name 3] | [ID] | A4: Analytics, visualizations & report |
+| Name | Student ID |
+|------|-----------|
+| Muhammad Zuraiz | 481961 |
+| Muhammad Shahzaib | 478038 |
 
 ---
 
