@@ -1,0 +1,9 @@
+VendorID,time_of_day,trip_count,avg_fare,avg_tip_pct,avg_duration,dispute_rate,vendor_fare_rank
+2,Afternoon,658682,19.47,19.76,15.82,1.46,1
+1,Afternoon,259084,17.57,19.74,15.59,1.17,2
+2,Evening,570233,18.21,21.84,14.39,1.41,1
+1,Evening,202619,16.54,23.31,14.17,1.21,2
+2,Morning,477682,18.44,19.48,14.21,1.25,1
+1,Morning,187962,16.94,27.14,14.41,1.12,2
+2,Night,504422,19.6,20.53,13.32,1.95,1
+1,Night,157350,18.34,20.92,13.43,1.61,2

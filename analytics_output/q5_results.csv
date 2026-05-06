@@ -1,0 +1,21 @@
+time_of_day,payment_label,total_trips,suspicious,disputed,dispute_pct,anomaly_rank
+Night,Dispute,9084,55,9084,100.00,1
+Afternoon,Dispute,8455,48,8455,100.00,2
+Evening,Dispute,7411,45,7411,100.00,3
+Morning,Dispute,5283,31,5283,100.00,4
+Afternoon,No Charge,4220,41,4220,100.00,5
+Night,No Charge,3303,24,3303,100.00,6
+Evening,No Charge,3058,24,3058,100.00,7
+Morning,No Charge,2823,14,2823,100.00,8
+Afternoon,Unknown,14946,0,0,0.00,9
+Night,Cash,100451,175,0,0.00,9
+Morning,Cash,122733,140,0,0.00,9
+Evening,Credit Card,629979,146,0,0.00,9
+Night,Credit Card,533411,193,0,0.00,9
+Morning,Credit Card,515993,156,0,0.00,9
+Afternoon,Credit Card,709077,334,0,0.00,9
+Night,Unknown,15523,0,0,0.00,9
+Morning,Unknown,18812,0,0,0.00,9
+Evening,Cash,117441,211,0,0.00,9
+Evening,Unknown,14963,2,0,0.00,9
+Afternoon,Cash,181068,215,0,0.00,9

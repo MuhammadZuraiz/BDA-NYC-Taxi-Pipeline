@@ -1,0 +1,5 @@
+pax_group,trip_count,avg_fare,avg_tip_pct,avg_distance,total_revenue,revenue_share_pct,fare_rank
+Pair(2),446554,20.34,19.93,3.97,12036749.77,15.68,1
+Small(3),105097,19.8,19.47,3.7,2754975.32,3.59,2
+Group(4-6),122883,19.18,19.6,3.54,3179082.88,4.14,3
+Solo(1),2343488,18.07,21.34,3.92,58803149.64,76.59,4

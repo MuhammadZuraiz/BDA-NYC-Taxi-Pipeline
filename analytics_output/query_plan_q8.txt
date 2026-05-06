@@ -1,0 +1,50 @@
+============================================================
+QUERY: Q8 CTE + Cumulative SUM + 7-day Moving AVG
+============================================================
+
+== Parsed Logical Plan ==
+CTE [daily]
+:  +- 'SubqueryAlias daily
+:     +- 'Aggregate ['pickup_date], ['pickup_date, 'COUNT(1) AS trip_count#3793, 'ROUND('AVG('fare_amount), 2) AS avg_fare#3794, 'ROUND('SUM('total_amount), 2) AS daily_revenue#3795]
+:        +- 'UnresolvedRelation [fact_trips], [], false
++- 'Sort ['pickup_date ASC NULLS FIRST], true
+   +- 'Project ['pickup_date, 'avg_fare, 'daily_revenue, 'ROUND('SUM('daily_revenue) windowspecdefinition('pickup_date ASC NULLS FIRST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())), 2) AS running_total#3791, 'ROUND('AVG('avg_fare) windowspecdefinition('pickup_date ASC NULLS FIRST, specifiedwindowframe(RowFrame, -6, currentrow$())), 2) AS moving_avg_7d#3792]
+      +- 'UnresolvedRelation [daily], [], false
+
+== Analyzed Logical Plan ==
+pickup_date: date, avg_fare: double, daily_revenue: double, running_total: double, moving_avg_7d: double
+WithCTE
+:- CTERelationDef 2, false
+:  +- SubqueryAlias daily
+:     +- Aggregate [pickup_date#4], [pickup_date#4, count(1) AS trip_count#3793L, round(avg(fare_amount#18), 2) AS avg_fare#3794, round(sum(total_amount#25), 2) AS daily_revenue#3795]
+:        +- SubqueryAlias fact_trips
+:           +- View (`fact_trips`, [trip_id#0L,VendorID#1L,tpep_pickup_datetime#2,tpep_dropoff_datetime#3,pickup_date#4,pickup_hour#5,pickup_dayofweek#6,is_weekend#7,time_of_day#8,PULocationID#9L,DOLocationID#10L,passenger_count#11,trip_distance#12,trip_duration_mins#13,RatecodeID#14,payment_type#15L,payment_label#16,store_and_fwd_flag#17,fare_amount#18,extra#19,mta_tax#20,tip_amount#21,tip_pct#22,tolls_amount#23,improvement_surcharge#24,total_amount#25,congestion_surcharge#26,airport_fee#27,revenue_per_mile#28,pickup_month#29])
+:              +- Relation [trip_id#0L,VendorID#1L,tpep_pickup_datetime#2,tpep_dropoff_datetime#3,pickup_date#4,pickup_hour#5,pickup_dayofweek#6,is_weekend#7,time_of_day#8,PULocationID#9L,DOLocationID#10L,passenger_count#11,trip_distance#12,trip_duration_mins#13,RatecodeID#14,payment_type#15L,payment_label#16,store_and_fwd_flag#17,fare_amount#18,extra#19,mta_tax#20,tip_amount#21,tip_pct#22,tolls_amount#23,... 6 more fields] parquet
++- Sort [pickup_date#4 ASC NULLS FIRST], true
+   +- Project [pickup_date#4, avg_fare#3794, daily_revenue#3795, running_total#3791, moving_avg_7d#3792]
+      +- Project [pickup_date#4, avg_fare#3794, daily_revenue#3795, _we0#3801, _we1#3802, round(_we0#3801, 2) AS running_total#3791, round(_we1#3802, 2) AS moving_avg_7d#3792]
+         +- Window [sum(daily_revenue#3795) windowspecdefinition(pickup_date#4 ASC NULLS FIRST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())) AS _we0#3801, avg(avg_fare#3794) windowspecdefinition(pickup_date#4 ASC NULLS FIRST, specifiedwindowframe(RowFrame, -6, currentrow$())) AS _we1#3802], [pickup_date#4 ASC NULLS FIRST]
+            +- Project [pickup_date#4, avg_fare#3794, daily_revenue#3795]
+               +- SubqueryAlias daily
+                  +- CTERelationRef 2, true, [pickup_date#4, trip_count#3793L, avg_fare#3794, daily_revenue#3795], false
+
+== Optimized Logical Plan ==
+Sort [pickup_date#4 ASC NULLS FIRST], true
++- Project [pickup_date#4, avg_fare#3794, daily_revenue#3795, round(_we0#3801, 2) AS running_total#3791, round(_we1#3802, 2) AS moving_avg_7d#3792]
+   +- Window [sum(daily_revenue#3795) windowspecdefinition(pickup_date#4 ASC NULLS FIRST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())) AS _we0#3801, avg(avg_fare#3794) windowspecdefinition(pickup_date#4 ASC NULLS FIRST, specifiedwindowframe(RowFrame, -6, currentrow$())) AS _we1#3802], [pickup_date#4 ASC NULLS FIRST]
+      +- Aggregate [pickup_date#4], [pickup_date#4, round(avg(fare_amount#18), 2) AS avg_fare#3794, round(sum(total_amount#25), 2) AS daily_revenue#3795]
+         +- Project [pickup_date#4, fare_amount#18, total_amount#25]
+            +- Relation [trip_id#0L,VendorID#1L,tpep_pickup_datetime#2,tpep_dropoff_datetime#3,pickup_date#4,pickup_hour#5,pickup_dayofweek#6,is_weekend#7,time_of_day#8,PULocationID#9L,DOLocationID#10L,passenger_count#11,trip_distance#12,trip_duration_mins#13,RatecodeID#14,payment_type#15L,payment_label#16,store_and_fwd_flag#17,fare_amount#18,extra#19,mta_tax#20,tip_amount#21,tip_pct#22,tolls_amount#23,... 6 more fields] parquet
+
+== Physical Plan ==
+AdaptiveSparkPlan isFinalPlan=false
++- Project [pickup_date#4, avg_fare#3794, daily_revenue#3795, round(_we0#3801, 2) AS running_total#3791, round(_we1#3802, 2) AS moving_avg_7d#3792]
+   +- Window [sum(daily_revenue#3795) windowspecdefinition(pickup_date#4 ASC NULLS FIRST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())) AS _we0#3801, avg(avg_fare#3794) windowspecdefinition(pickup_date#4 ASC NULLS FIRST, specifiedwindowframe(RowFrame, -6, currentrow$())) AS _we1#3802], [pickup_date#4 ASC NULLS FIRST]
+      +- Sort [pickup_date#4 ASC NULLS FIRST], false, 0
+         +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=1861]
+            +- HashAggregate(keys=[pickup_date#4], functions=[avg(fare_amount#18), sum(total_amount#25)], output=[pickup_date#4, avg_fare#3794, daily_revenue#3795])
+               +- Exchange hashpartitioning(pickup_date#4, 8), ENSURE_REQUIREMENTS, [plan_id=1858]
+                  +- HashAggregate(keys=[pickup_date#4], functions=[partial_avg(fare_amount#18), partial_sum(total_amount#25)], output=[pickup_date#4, sum#3811, count#3812L, sum#3813])
+                     +- Project [pickup_date#4, fare_amount#18, total_amount#25]
+                        +- FileScan parquet [pickup_date#4,fare_amount#18,total_amount#25,pickup_month#29] Batched: true, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/C:/Users/zurai/Desktop/Sem 6/BDA/Project/processed/fact_trips], PartitionFilters: [], PushedFilters: [], ReadSchema: struct<pickup_date:date,fare_amount:double,total_amount:double>
+
